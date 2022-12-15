@@ -1,0 +1,17 @@
+%% coding: utf-8
+%% rel generated at {2020,11,15} {14,50,33}
+{release,{"nitrogen","2.4.0"},
+         {erts,"11.0.2"},
+         [{kernel,"7.0"},
+          {stdlib,"3.13"},
+          {sasl,"4.0"},
+          {crypto,"4.7"},
+          {runtime_tools,"1.15"},
+          {xmerl,"1.3.25"},
+          {compiler,"7.6.1"},
+          {asn1,"5.0.13"},
+          {public_key,"1.8"},
+          {ssl,"10.0"},
+          {common_test,"1.19"},
+          {parsetools,"2.2"}]}.
+

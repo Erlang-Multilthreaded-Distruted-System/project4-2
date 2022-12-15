@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b2f1d98c-4915-4562-a639-9cc3211a96c8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/rebar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/out/production/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../client/out/production/client/client.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/out/test/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../client/out/test/client/client.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/client.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/client.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/out/production/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/production/server/server.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/out/test/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/test/server/server.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/server.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/server.erl" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2IvqDDOy8Yv7nj02mSMOiCnH75O" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.tools" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="ErlangConsoleRunConfigurationType" factoryName="Erlang Console" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="consoleArgs" value="" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="workingDirPath" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b2f1d98c-4915-4562-a639-9cc3211a96c8" name="Changes" comment="" />
+      <created>1671072285112</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1671072285112</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
