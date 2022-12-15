@@ -74,7 +74,20 @@ keep_listening() ->
           database:add_following(Username ,New_subscribe),
           database:add_follower(New_subscribe, Username),
           All_followers = database:get_followings(Username),
-          Reply_to_client = encode_api(All_followers)
+          Reply_to_client = encode_api(All_followers);
+        "send_tweet" ->
+          New_Tweet = bin_map_get(<<"Send_tweet">>, Map),
+          database:update_tweet(Username, New_Tweet),
+          All_user_tweets = database:get_user_tweets(Username),
+          Reply_to_client = encode_api(All_user_tweets);
+        "get_tag_tweet" ->
+          Tag = bin_map_get(<<"Tag">>, Map),
+          All_tag_tweets = database:get_tag_tweets(Tag),
+          Reply_to_client = encode_api(All_tag_tweets);
+        "get_mention_tweet" ->
+          Mention = bin_map_get(<<"Mention">>, Map),
+          All_mention_tweets = database:get_mention_tweets(Mention),
+          Reply_to_client = encode_api(All_mention_tweets)
       end,
       reply_to_client(A, Reply_to_client),
 

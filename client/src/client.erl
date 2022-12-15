@@ -12,7 +12,7 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2,
   code_change/3]).
 %% for test
--export([getAllFollowingTweets/1,subscribe/2,get_all_users/0]).
+-export([getAllFollowingTweets/1,subscribe/2,get_all_users/0,send_tweet/2,get_tag_tweet/1,get_mention_tweet/1]).
 
 -define(SERVER, ?MODULE).
 
@@ -54,11 +54,12 @@ getJson_getAllFollowingTweets(Username) ->
   Json = [{"Action" , <<"getAllFollowingTweets">>}, {"Username" , UsernameBin}],
   iolist_to_binary(mochijson2:encode(Json)).
 
-subscribe(Username, Password) ->
+%% return a list from srver
+subscribe(Username, New_subscribe) ->
   SomeHostInNet = "localhost", % to make it runnable on one machine
   {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
     [binary, {packet, 4}, {active, false}]),
-  Msg = getJson_subscribe(Username, Password),
+  Msg = getJson_subscribe(Username, New_subscribe),
   ok = gen_tcp:send(Sock, Msg),
   gen_tcp:close(Sock),
   receive_from_server(SomeHostInNet).
@@ -69,11 +70,7 @@ getJson_subscribe(Username, New_subscribe) ->
   Json = [{"Action" , <<"subscribe">>}, {"Username" , UsernameBin}, {"New_subscribe", New_subscribeBin}],
   iolist_to_binary(mochijson2:encode(Json)).
 
-
-
-
 get_all_users() ->
-
   SomeHostInNet = "localhost", % to make it runnable on one machine
   {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
   [binary, {packet, 4}, {active, false}]),
@@ -84,6 +81,53 @@ get_all_users() ->
 
 getJson_get_all_users() ->
   Json = [{"Action" , <<"getAllUsers">>}, {"Username" , <<"getAllUsers">>}],
+  iolist_to_binary(mochijson2:encode(Json)).
+
+send_tweet(Username, Tweet) ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_send_tweet(Username, Tweet),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  receive_from_server(SomeHostInNet).
+
+getJson_send_tweet(Username, Tweet) ->
+  UsernameBin = list_to_binary(Username),
+  New_Tweet = list_to_binary(Tweet),
+  Json = [{"Action" , <<"send_tweet">>}, {"Username" , UsernameBin}, {"Send_tweet", New_Tweet}],
+  iolist_to_binary(mochijson2:encode(Json)).
+
+
+get_tag_tweet(Tag) ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_get_tag_tweet(Tag),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  receive_from_server(SomeHostInNet).
+
+getJson_get_tag_tweet(Tag) ->
+  TagBin = list_to_binary(Tag),
+
+  Json = [{"Action" , <<"get_tag_tweet">>}, {"Username" , <<"get_tag_tweet">>}, {"Tag", TagBin}],
+  iolist_to_binary(mochijson2:encode(Json)).
+
+
+get_mention_tweet(Mention) ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_get_mention_tweet(Mention),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  receive_from_server(SomeHostInNet).
+
+getJson_get_mention_tweet(Mention) ->
+  MentionBin = list_to_binary(Mention),
+
+  Json = [{"Action" , <<"get_mention_tweet">>}, {"Username" , <<"get_mention_tweet">>}, {"Mention", MentionBin}],
   iolist_to_binary(mochijson2:encode(Json)).
 
 

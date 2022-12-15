@@ -2,22 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dcfcab51-e455-4249-bafa-2ab655cc8df9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../nitrogen/site/src/elements/mochijson2.erl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../nitrogen/site/src/elements/mochinum.erl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../nitrogen/site/src/login.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/client/client.beam" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/client/client.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rebar.config" beforeDir="false" afterPath="$PROJECT_DIR$/rebar.config" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rebar.lock" beforeDir="false" afterPath="$PROJECT_DIR$/rebar.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rebar3.config" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/client.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test.erl" beforeDir="false" afterPath="$PROJECT_DIR$/src/test.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/out/production/server/database.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/production/server/database.beam" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nitrogen/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../nitrogen/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nitrogen/site/.rebar/erlcinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../nitrogen/site/.rebar/erlcinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nitrogen/site/src/index.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../nitrogen/site/src/index.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../nitrogen/site/src/mobile.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../nitrogen/site/src/mobile.erl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/out/production/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/production/server/server.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/out/test/server/database.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/test/server/database.beam" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/out/test/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/test/server/server.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/database.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/database.erl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/server.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/server.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/test.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/test.erl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +51,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="Erlang External Tools" />
   </component>
   <component name="RunManager">
