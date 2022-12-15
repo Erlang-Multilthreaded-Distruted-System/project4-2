@@ -97,7 +97,20 @@ keep_listening() ->
             false ->
               Reply = "false"
           end,
-          Reply_to_client = Reply
+          Reply_to_client = encode_api(Reply);
+        "get_all_following_users" ->
+          All_followings = database:get_followings(Username),
+          Reply_to_client = encode_api(All_followings);
+        "get_all_unfollowing_users" ->
+          All_followings = database:get_followings(Username),
+          All_users = database:get_all_users(),
+          All_not_followings = All_users -- All_users,
+          Reply_to_client = encode_api(All_not_followings),
+          ok;
+        "get_all_user_tweets" ->
+          All_user_tweets = database:get_user_tweets(Username),
+          Reply_to_client = encode_api(All_user_tweets)
+
       end,
       reply_to_client(A, Reply_to_client),
 
