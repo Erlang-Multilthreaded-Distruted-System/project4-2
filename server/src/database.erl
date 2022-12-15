@@ -116,12 +116,21 @@ get_followings(User_name) ->
   [[Followings]] = ets:match(users, {user, User_name, '_', '_', '_', '$1'}),
   Followings.
 
+%%
+%%get_followings_tweets(User_name) ->
+%%  All_following = get_followings(User_name),
+%%  lists:foldl(fun(X, List) ->
+%%    List ++ get_user_tweets(X)
+%%              end, [], All_following).
 
 get_followings_tweets(User_name) ->
-  All_following = get_followings(User_name),
-  lists:foldl(fun(X, List) ->
-    List ++ get_user_tweets(User_name)
-              end, [], All_following).
+  All_following = database:get_followings(User_name),
+  Map_init = #{"k1" => 1, "k2" => 2, "k3" => 3},
+  lists:foldl(fun(X, Map) ->
+    User_tweets = database:get_user_tweets(X),
+    maps:put(X, User_tweets, Map)
+              end, #{}, All_following).
+
 
 %%  add/delete only one follower each time
 add_follower(User_name, New_follower) ->
