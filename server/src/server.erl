@@ -71,10 +71,25 @@ keep_listening() ->
           Reply_to_client = encode_api(All_following_tweets);
         "subscribe" ->
           New_subscribe = bin_map_get(<<"New_subscribe">>, Map),
-          database:add_following(Username ,New_subscribe),
-          database:add_follower(New_subscribe, Username),
-          All_followers = database:get_followings(Username),
-          Reply_to_client = encode_api(All_followers);
+          User_exist =  check_user(Username),
+          case User_exist of
+            true ->
+              All_followings_pre = database:get_followings(Username),
+              Res_followings = lists:member(New_subscribe, All_followings_pre),
+              case Res_followings of
+                true ->
+                  All_followings_test =  All_followings_pre;
+                false ->
+                  database:add_following(Username ,New_subscribe),
+                  database:add_follower(New_subscribe, Username),
+                  All_followings_test = database:get_followings(Username)
+              end,
+              All_followings = All_followings_test;
+            false ->
+              All_followings = ["You already follow this person"]
+          end,
+
+          Reply_to_client = encode_api(All_followings);
         "send_tweet" ->
           New_Tweet = bin_map_get(<<"Send_tweet">>, Map),
           database:update_tweet(Username, New_Tweet),
