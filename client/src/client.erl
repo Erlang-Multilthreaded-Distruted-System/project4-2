@@ -18,7 +18,7 @@
 
 -record(client_state, {}).
 
--export([reigter/2]).
+-export([reigter/2,login_in/2]).
 
 
 %%%===================================================================
@@ -38,6 +38,23 @@ getJson_reg(Username, Password) ->
   PasswordBin = list_to_binary(Password),
   Json = [{"Action" , <<"register">>}, {"Username" , UsernameBin}, {"Password", PasswordBin}],
   iolist_to_binary(mochijson2:encode(Json)).
+
+
+login_in(Username, Password) ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_login_in(Username, Password),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  receive_from_server_string(SomeHostInNet).
+
+getJson_login_in(Username, Password) ->
+  UsernameBin = list_to_binary(Username),
+  PasswordBin = list_to_binary(Password),
+  Json = [{"Action" , <<"login_in">>}, {"Username" , UsernameBin}, {"Password", PasswordBin}],
+  iolist_to_binary(mochijson2:encode(Json)).
+
 
 
 getAllFollowingTweets(Username) ->

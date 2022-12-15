@@ -87,7 +87,17 @@ keep_listening() ->
         "get_mention_tweet" ->
           Mention = bin_map_get(<<"Mention">>, Map),
           All_mention_tweets = database:get_mention_tweets(Mention),
-          Reply_to_client = encode_api(All_mention_tweets)
+          Reply_to_client = encode_api(All_mention_tweets);
+        "login_in" ->
+          Password = bin_map_get(<<"Password">>, Map),
+          Result = database:login_in(Username, Password),
+          case Result of
+            true ->
+              Reply = "true";
+            false ->
+              Reply = "false"
+          end,
+          Reply_to_client = Reply
       end,
       reply_to_client(A, Reply_to_client),
 

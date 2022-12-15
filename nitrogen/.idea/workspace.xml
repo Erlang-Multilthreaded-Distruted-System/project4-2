@@ -2,21 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2f1d98c-4915-4562-a639-9cc3211a96c8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/site/src/elements/mochijson2.erl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/site/src/elements/mochinum.erl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/site/src/login.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/out/production/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../client/out/production/client/client.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/out/test/client/client.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../client/out/test/client/client.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/client.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/client.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/rebar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/site/.rebar/erlcinfo" beforeDir="false" afterPath="$PROJECT_DIR$/site/.rebar/erlcinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/src/elements/mochijson2.erl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/src/elements/mochinum.erl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/site/src/index.erl" beforeDir="false" afterPath="$PROJECT_DIR$/site/src/index.erl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/site/src/login.erl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/site/src/mobile.erl" beforeDir="false" afterPath="$PROJECT_DIR$/site/src/mobile.erl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/out/production/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/production/server/server.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/out/test/server/server.beam" beforeDir="false" afterPath="$PROJECT_DIR$/../server/out/test/server/server.beam" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/server.erl" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/server.erl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />

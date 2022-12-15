@@ -24,9 +24,9 @@
 -export([get_mentions_from_tweet/1, get_mention_tweets/1, update_mention/2]).
 
 % login in / out
--export([login_in/1, login_out/1, get_status/1, get_all_online_followers/1, get_followings_tweets/1]).
+-export([login_in/1, login_in/2,login_out/1, get_status/1, get_all_online_followers/1, get_followings_tweets/1]).
 
--export([set_user_frequency/3 ,get_user_frequency/1]).
+-export([set_user_frequency/3 ,get_user_frequency/1,get_password/1]).
 
 -define(SERVER, ?MODULE).
 
@@ -116,12 +116,6 @@ get_followings(User_name) ->
   [[Followings]] = ets:match(users, {user, User_name, '_', '_', '_', '$1'}),
   Followings.
 
-%%
-%%get_followings_tweets(User_name) ->
-%%  All_following = get_followings(User_name),
-%%  lists:foldl(fun(X, List) ->
-%%    List ++ get_user_tweets(X)
-%%              end, [], All_following).
 
 get_followings_tweets(User_name) ->
   All_following = database:get_followings(User_name),
@@ -152,6 +146,16 @@ delete_follower(User_name, Delete_follower) ->
 
 login_in(User_name) ->
   ets:update_element(users, User_name, [{#user.on_line, true}]).
+
+get_password(User_name) ->
+  [[Password]] = ets:match(users, {user, User_name, '$1', '_','_' , '_'}),
+  Password.
+
+login_in(User_name, Password) ->
+  True_Password = get_password(User_name),
+  Result = True_Password =:= Password,
+
+  Result.
 
 login_out(User_name) ->
   ets:update_element(users, User_name, [{#user.on_line, false}]).
