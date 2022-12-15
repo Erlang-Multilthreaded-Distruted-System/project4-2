@@ -53,7 +53,6 @@ keep_listening() ->
 
           case User_exist  of
             false ->
-%%              can be register
               Password = bin_map_get(<<"Password">>, Map),
               io:format("register ~s with Password ~s ~n", [Username, Password]),
               register_user_single(Username, Password),
@@ -68,7 +67,8 @@ keep_listening() ->
           Reply_to_client = encode_api(All_users);
         "get_all_subscribe_tweets" ->
           All_following_tweets = database:get_followings_tweets(Username),
-          Reply_to_client = encode_api(All_following_tweets);
+          List = flatten_map_to_list(All_following_tweets),
+          Reply_to_client = encode_api(List);
         "subscribe" ->
           New_subscribe = bin_map_get(<<"New_subscribe">>, Map),
           User_exist =  check_user(New_subscribe),
@@ -197,3 +197,13 @@ decode_api_list(Bin) ->
 bin_map_get(Bin, Map) ->
   binary_to_list(proplists:get_value(Bin, Map)).
 
+
+flatten_map_to_list(Map) ->
+  maps:fold(fun(K, V, Acc) ->
+    List_new = lists:foldl(fun(X, Acc) ->
+      Tweet =  K ++ ": " ++ X ,
+      Acc ++ [Tweet]
+                           end, [], V ),
+    Acc ++ List_new
+
+            end, [], Map).

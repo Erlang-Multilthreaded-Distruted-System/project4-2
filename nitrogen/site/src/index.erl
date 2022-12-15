@@ -181,27 +181,13 @@ get_all_subscribee_tweets(Username) ->
   Msg = getJson_getAllFollowingTweets(Username),
   ok = gen_tcp:send(Sock, Msg),
   gen_tcp:close(Sock),
-  Result_Map = receive_from_server(SomeHostInNet),
-  flatten_map_to_list(Result_Map).
+  receive_from_server(SomeHostInNet).
 
 getJson_getAllFollowingTweets(Username) ->
   UsernameBin = list_to_binary(Username),
   Json = [{"Action" , <<"get_all_subscribe_tweets">>}, {"Username" , UsernameBin}],
   iolist_to_binary(mochijson2:encode(Json)).
 
-flatten_map_to_list(Result_Map) ->
-  {struct, Proplist} = Result_Map,
-  Map = proplists:to_map(Proplist),
-  maps:fold(fun(K, V, Acc) ->
-    User = binary_to_list(K),
-
-    List_new = lists:foldl(fun(X, Acc1) ->
-      Tweet =  User ++ ": " ++ X ,
-      Acc1 ++ [Tweet]
-                           end, [], V ),
-    Acc ++ List_new
-
-            end, [], Map).
 
 get_tag_tweets(_Tag) ->
     ["#a", "#b", "#c", "#d", "#e", "#fasdas"].
