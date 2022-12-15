@@ -119,11 +119,12 @@ get_followings(User_name) ->
 
 get_followings_tweets(User_name) ->
   All_following = database:get_followings(User_name),
-  Map_init = #{"k1" => 1, "k2" => 2, "k3" => 3},
+
   lists:foldl(fun(X, Map) ->
     User_tweets = database:get_user_tweets(X),
     maps:put(X, User_tweets, Map)
               end, #{}, All_following).
+
 
 
 %%  add/delete only one follower each time

@@ -10,8 +10,9 @@
 -author("lynn").
 
 %% API
--export([client/0, test_str/0,add_string/0,test_case/0]).
-
+-export([client/0, test_str/0,add_string/0,test_case/0, flatten_map_to_list/0]).
+-export([test_list_frontend/0, pretty_users/1]).
+%%-record(listitem,{text=""}).
 
 client() ->
   {ok,Sock} = gen_tcp:connect("localhost",3434,[{active,false},
@@ -48,4 +49,31 @@ test_case() ->
 io:format("~w", [B]).
 
 
-map_get_toStr() ->
+flatten_map_to_list() ->
+  Proplist = [{<<"3">>, ["This a tweet from 3 @2","This a tweet from 3 #two"]}],
+  Map = proplists:to_map(Proplist),
+  maps:fold(fun(K, V, Acc) ->
+    User = binary_to_list(K),
+
+    List_new = lists:foldl(fun(X, Acc) ->
+        Tweet =  User ++ ": " ++ X ,
+        Acc ++ [Tweet]
+                end, [], V ),
+    Acc ++ List_new
+
+            end, [], Map).
+
+
+
+test_list_frontend() ->
+
+  List = ["123", "222", "333"],
+  list_item(List).
+
+list_item(List) ->
+  lists:map(fun(X) ->
+    "#listitem{text = X}"
+              end,List).
+
+pretty_users(List) ->
+  lists:foldl(fun(X, Acc) -> Acc ++ X ++ " " end, [], List).

@@ -66,30 +66,30 @@ keep_listening() ->
         "getAllUsers" ->
           All_users = database:get_all_users(),
           Reply_to_client = encode_api(All_users);
-        "getAllFollowingTweets" ->
+        "get_all_subscribe_tweets" ->
           All_following_tweets = database:get_followings_tweets(Username),
           Reply_to_client = encode_api(All_following_tweets);
         "subscribe" ->
           New_subscribe = bin_map_get(<<"New_subscribe">>, Map),
-          User_exist =  check_user(Username),
+          User_exist =  check_user(New_subscribe),
           case User_exist of
             true ->
               All_followings_pre = database:get_followings(Username),
               Res_followings = lists:member(New_subscribe, All_followings_pre),
               case Res_followings of
                 true ->
-                  All_followings_test =  All_followings_pre;
+                  All_followings_test =  "You already follow this person";
                 false ->
                   database:add_following(Username ,New_subscribe),
                   database:add_follower(New_subscribe, Username),
-                  All_followings_test = database:get_followings(Username)
+                  All_followings_test = "Subscribe " ++ New_subscribe ++ " sucessfully"
               end,
               All_followings = All_followings_test;
             false ->
-              All_followings = ["You already follow this person"]
+              All_followings = "The user you want to follow does not exist"
           end,
 
-          Reply_to_client = encode_api(All_followings);
+          Reply_to_client = All_followings;
         "send_tweet" ->
           New_Tweet = bin_map_get(<<"Send_tweet">>, Map),
           database:update_tweet(Username, New_Tweet),
@@ -112,16 +112,15 @@ keep_listening() ->
             false ->
               Reply = "false"
           end,
-          Reply_to_client = encode_api(Reply);
+          Reply_to_client = Reply;
         "get_all_following_users" ->
           All_followings = database:get_followings(Username),
           Reply_to_client = encode_api(All_followings);
-        "get_all_unfollowing_users" ->
+        "get_all_not_following_users" ->
           All_followings = database:get_followings(Username),
           All_users = database:get_all_users(),
-          All_not_followings = All_users -- All_users,
-          Reply_to_client = encode_api(All_not_followings),
-          ok;
+          All_not_followings = All_users -- All_followings,
+          Reply_to_client = encode_api(All_not_followings);
         "get_all_user_tweets" ->
           All_user_tweets = database:get_user_tweets(Username),
           Reply_to_client = encode_api(All_user_tweets)

@@ -12,6 +12,8 @@
 %% API
 -export([get_all_users/0,get_all_following_tweets/0]).
 
+
+
 get_all_users()->
   database:start_link(),
   database:register("123","qerq"),
@@ -61,6 +63,7 @@ decode_api_list(Bin) ->
 
 bin_map_get(Bin, Map) ->
   binary_to_list(proplists:get_value(Bin, Map)).
+
 
 
 

@@ -16,7 +16,7 @@ body() ->
 
 inner_body() ->
     [
-        #h1{text = "Welcome to Tweeter clone 123!"},
+        #h1{id=banner,text = "Welcome to Tweeter clone!"},
         #panel{
             id = wrapper,
             body = [
@@ -35,27 +35,15 @@ event(register) ->
             #label{text = "Password:"},
             #textbox{id = psw, size = 20, placeholder = "Enter your password here"},
             #button{id = confirm, text = "confrim register", postback = confirm},
-            #panel{id = flag, style = "margin: 50px;", body = ""}
+            #label{id = flag, text = ""}
         ],
         actions = #effect{effect = highlight}
     });
 event(confirm) ->
     Username = wf:q(username),
     Password = wf:q(psw),
-    io:format("USN1:~s~nPSW1:~s~n", [Username, Password]),
     A = register1(Username, Password),
-    if
-        A == true ->
-            wf:replace(flag, #panel{
-                body = [#label{text = "Register Success!"}],
-                actions = #effect{effect = highlight}
-            });
-        true ->
-            wf:replace(flag, #panel{
-                body = [#label{text = "User name has existed!"}],
-                actions = #effect{effect = highlight}
-            })
-    end;
+    wf:update(flag, A);
 event(login) ->
     wf:replace(login, #panel{
         body = [
@@ -70,11 +58,12 @@ event(login) ->
 event(log_in) ->
     Username = wf:q(username1),
     Password = wf:q(psw1),
-    A = login(Username, Password),
-    if
-        A == true ->
+    A1 = login_in(Username, Password),
+    A = string:equal(A1, "true"),
+    case A of
+        true ->
             wf:state(usn, Username),
-            #alert{text = "log in success!"},
+            wf:update(banner,Username++", welcome to Tweeter clone!"),
             wf:replace(wrapper, #panel{
                 id = new_wrapper,
                 style = "margin: 50px;",
@@ -103,12 +92,17 @@ event(log_in) ->
                     },
                     #label{text = "Want to subscribe? Enter his/her ID here:"},
                     #textbox{id = follow, text = ""},
-                    #button{id = subscribe, text = "subscribe", postback = subscribe}
+                    #button{id = subscribe, text = "subscribe", postback = subscribe},
+                    #label{id = after_subscribe, text = ""},
+                    "<br>",
+                    #button{id = logout, text = "logout", postback = logout}
                 ],
                 actions = #effect{effect = highlight}
             });
-        true ->
-            #alert{text = "log in failed, please try again!"}
+        false ->
+            wf:replace(wrapper, #label{
+                text = "login failed, please check you username & password and try again!"
+            })
     end;
 event(send_tweet) ->
     Tweet = wf:q(write),
@@ -123,8 +117,8 @@ event(check_tweets) ->
 event(subscribe) ->
     Username = wf:state(usn),
     New_subscribe = wf:q(follow),
-    Subscribers = subscribe(Username, New_subscribe),
-    wf:update(subscribers, Subscribers);
+    ReplyString = subscribe(Username, New_subscribe),
+    wf:update(after_subscribe, ReplyString);
 event(get_subscriber) ->
     Username = wf:state(usn),
     Following = get_all_following(Username),
@@ -132,25 +126,82 @@ event(get_subscriber) ->
 event(get_people) ->
     Username = wf:state(usn),
     Unfollowing = get_all_unfollowing(Username),
-    wf:update(people, Unfollowing).
+    wf:update(people, Unfollowing);
+event(logout) ->
+    wf:state(usn, " "),
+    wf:replace(new_wrapper, #panel{
+        id = wrapper,
+        body = [
+            #button{id = register, text = "register", postback = register},
+            #h1{text = "  "},
+            #button{id = login, text = "login", postback = login}
+        ]
+    }).
 
-login(_Username, _Password) ->
-    true.
+get_all_following(Username) ->
+    % to make it runnable on one machine
+    SomeHostInNet = "localhost",
+    {ok, Sock} = gen_tcp:connect(
+        SomeHostInNet,
+        3456,
+        [binary, {packet, 4}, {active, false}]
+    ),
+    Msg = getJson_get_all_following_users(Username),
+    ok = gen_tcp:send(Sock, Msg),
+    gen_tcp:close(Sock),
+    receive_from_server(SomeHostInNet).
 
-send_tweet(_Username, Tweet) ->
-    [Tweet] ++ ["abc", 123, "AAA"].
+getJson_get_all_following_users(Username) ->
+    UsernameBin = list_to_binary(Username),
+    Json = [{"Action", <<"get_all_following_users">>}, {"Username", UsernameBin}],
+    iolist_to_binary(mochijson2:encode(Json)).
 
-subscribe(_Username, New_subscribe) ->
-    [New_subscribe] ++ ["alex", "tom", "andrew"].
+get_all_unfollowing(Username) ->
+    % to make it runnable on one machine
+    SomeHostInNet = "localhost",
+    {ok, Sock} = gen_tcp:connect(
+        SomeHostInNet,
+        3456,
+        [binary, {packet, 4}, {active, false}]
+    ),
+    Msg = getJson_get_all_not_following_users(Username),
+    ok = gen_tcp:send(Sock, Msg),
+    gen_tcp:close(Sock),
+    receive_from_server(SomeHostInNet).
 
-get_all_following(_Username) ->
-    ["alex", "tom", "andrew"].
+getJson_get_all_not_following_users(Username) ->
+    UsernameBin = list_to_binary(Username),
+    Json = [{"Action", <<"get_all_not_following_users">>}, {"Username", UsernameBin}],
+    iolist_to_binary(mochijson2:encode(Json)).
 
-get_all_unfollowing(_Username) ->
-    ["1", "2", "3"].
+get_all_subscribee_tweets(Username) ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_getAllFollowingTweets(Username),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  Result_Map = receive_from_server(SomeHostInNet),
+  flatten_map_to_list(Result_Map).
 
-get_all_subscribee_tweets(_Username) ->
-    ["a", "b", "c", "d", "e", "f"].
+getJson_getAllFollowingTweets(Username) ->
+  UsernameBin = list_to_binary(Username),
+  Json = [{"Action" , <<"get_all_subscribe_tweets">>}, {"Username" , UsernameBin}],
+  iolist_to_binary(mochijson2:encode(Json)).
+
+flatten_map_to_list(Result_Map) ->
+  {struct, Proplist} = Result_Map,
+  Map = proplists:to_map(Proplist),
+  maps:fold(fun(K, V, Acc) ->
+    User = binary_to_list(K),
+
+    List_new = lists:foldl(fun(X, Acc1) ->
+      Tweet =  User ++ ": " ++ X ,
+      Acc1 ++ [Tweet]
+                           end, [], V ),
+    Acc ++ List_new
+
+            end, [], Map).
 
 get_tag_tweets(_Tag) ->
     ["#a", "#b", "#c", "#d", "#e", "#fasdas"].
@@ -159,7 +210,6 @@ get_mention_tweet(_Mention) ->
     ["@alex adaad", "@abc#sdADA"].
 
 register1(Username, Password) ->
-    io:format("USN2:~s~nPSW2:~s~n", [Username, Password]),
     % to make it runnable on one machine
     SomeHostInNet = "localhost",
     {ok, Sock} = gen_tcp:connect(
@@ -182,4 +232,74 @@ receive_from_server_string(SomeHostInNet) ->
     {ok, SockB} = gen_tcp:connect(SomeHostInNet, 3456, [binary, {packet, 4}, {active, false}]),
     {ok, B} = gen_tcp:recv(SockB, 0),
     io:format("From server ~s ~n", [B]),
-    ok = gen_tcp:close(SockB).
+    ok = gen_tcp:close(SockB),
+    B.
+
+send_tweet(Username, Tweet) ->
+    % to make it runnable on one machine
+    SomeHostInNet = "localhost",
+    {ok, Sock} = gen_tcp:connect(
+        SomeHostInNet,
+        3456,
+        [binary, {packet, 4}, {active, false}]
+    ),
+    Msg = getJson_send_tweet(Username, Tweet),
+    ok = gen_tcp:send(Sock, Msg),
+    gen_tcp:close(Sock),
+    receive_from_server(SomeHostInNet).
+
+getJson_send_tweet(Username, Tweet) ->
+    UsernameBin = list_to_binary(Username),
+    New_Tweet = list_to_binary(Tweet),
+    Json = [{"Action", <<"send_tweet">>}, {"Username", UsernameBin}, {"Send_tweet", New_Tweet}],
+    iolist_to_binary(mochijson2:encode(Json)).
+
+receive_from_server(SomeHostInNet) ->
+    {ok, SockB} = gen_tcp:connect(SomeHostInNet, 3456, [binary, {packet, 4}, {active, false}]),
+    {ok, B} = gen_tcp:recv(SockB, 0),
+    Dec = decode_api_list(B),
+    ok = gen_tcp:close(SockB),
+    Dec.
+
+decode_api_list(Bin) ->
+    mochijson2:decode(Bin).
+
+login_in(Username, Password) ->
+    % to make it runnable on one machine
+    SomeHostInNet = "localhost",
+    {ok, Sock} = gen_tcp:connect(
+        SomeHostInNet,
+        3456,
+        [binary, {packet, 4}, {active, false}]
+    ),
+    Msg = getJson_login_in(Username, Password),
+    ok = gen_tcp:send(Sock, Msg),
+    gen_tcp:close(Sock),
+    receive_from_server_string(SomeHostInNet).
+
+getJson_login_in(Username, Password) ->
+    UsernameBin = list_to_binary(Username),
+    PasswordBin = list_to_binary(Password),
+    Json = [{"Action", <<"login_in">>}, {"Username", UsernameBin}, {"Password", PasswordBin}],
+    iolist_to_binary(mochijson2:encode(Json)).
+
+subscribe(Username, New_subscribe) ->
+    % to make it runnable on one machine
+    SomeHostInNet = "localhost",
+    {ok, Sock} = gen_tcp:connect(
+        SomeHostInNet,
+        3456,
+        [binary, {packet, 4}, {active, false}]
+    ),
+    Msg = getJson_subscribe(Username, New_subscribe),
+    ok = gen_tcp:send(Sock, Msg),
+    gen_tcp:close(Sock),
+    receive_from_server_string(SomeHostInNet).
+
+getJson_subscribe(Username, New_subscribe) ->
+    UsernameBin = list_to_binary(Username),
+    New_subscribeBin = list_to_binary(New_subscribe),
+    Json = [
+        {"Action", <<"subscribe">>}, {"Username", UsernameBin}, {"New_subscribe", New_subscribeBin}
+    ],
+    iolist_to_binary(mochijson2:encode(Json)).
