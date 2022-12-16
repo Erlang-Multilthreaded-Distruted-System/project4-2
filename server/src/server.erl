@@ -123,7 +123,10 @@ keep_listening() ->
           Reply_to_client = encode_api(All_not_followings);
         "get_all_user_tweets" ->
           All_user_tweets = database:get_user_tweets(Username),
-          Reply_to_client = encode_api(All_user_tweets)
+          Reply_to_client = encode_api(All_user_tweets);
+        "get_all_tweets" ->
+          All_tweets = database:get_tweets_table_format(),
+          Reply_to_client = encode_api(All_tweets)
 
       end,
       reply_to_client(A, Reply_to_client),
@@ -201,7 +204,7 @@ bin_map_get(Bin, Map) ->
 flatten_map_to_list(Map) ->
   maps:fold(fun(K, V, Acc) ->
     List_new = lists:foldl(fun(X, Acc) ->
-      Tweet =  K ++ ": " ++ X ,
+      Tweet =  K ++ ": " ++ X ++"&#13;&#10;" ,
       Acc ++ [Tweet]
                            end, [], V ),
     Acc ++ List_new

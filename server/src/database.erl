@@ -28,6 +28,7 @@
 
 -export([set_user_frequency/3 ,get_user_frequency/1,get_password/1]).
 
+-export([get_tweets_table_format/0]).
 -define(SERVER, ?MODULE).
 
 
@@ -248,6 +249,19 @@ get_mentions_from_tweet(Tweet) ->
 
 get_users_table() ->
   ets:tab2list(users).
+
+get_tweets_table_format()->
+  Lists = ets:tab2list(tweets),
+ lists:foldl(fun(X, Acc)  ->
+   {tweet, User, List} = X,
+   Acc ++ user_and_tweets(User, List)
+             end, [], Lists).
+
+user_and_tweets(User, List) ->
+  lists:foldl(fun(X, Acc) ->
+    Tweet =  User ++ ": " ++ X ++" &#13;&#10;" ,
+    Acc ++ [Tweet]
+              end, [], List).
 
 
 

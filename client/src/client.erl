@@ -23,7 +23,8 @@
   get_all_not_following_users/1,
   get_all_following_users/1,
   get_mention_tweet/1,
-  get_all_user_tweets/1]).
+  get_all_user_tweets/1,
+  get_all_tweets/0]).
 
 -define(SERVER, ?MODULE).
 
@@ -215,7 +216,18 @@ getJson_get_mention_tweet(Mention) ->
     {"Username" , <<"get_mention_tweet">>}, {"Mention", MentionBin}],
   iolist_to_binary(mochijson2:encode(Json)).
 
+get_all_tweets() ->
+  SomeHostInNet = "localhost", % to make it runnable on one machine
+  {ok, Sock} = gen_tcp:connect(SomeHostInNet, 3456,
+    [binary, {packet, 4}, {active, false}]),
+  Msg = getJson_get_all_tweets(),
+  ok = gen_tcp:send(Sock, Msg),
+  gen_tcp:close(Sock),
+  receive_from_server(SomeHostInNet).
 
+getJson_get_all_tweets() ->
+  Json = [{"Action" , <<"get_all_tweets">>}, {"Username" , <<"get_all_tweets">>}],
+  iolist_to_binary(mochijson2:encode(Json)).
 
 %% Check here
 receive_from_server_string(SomeHostInNet) ->
